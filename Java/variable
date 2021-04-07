@@ -1,0 +1,25 @@
+#변수
+
+## 변수(variable)란
+테이터를 저장할 수 있는 메모리 공간, 저장된 값은 변경될 수 있음 
+
+## 변수의 종류
+1. 기본형(primitive type) : 실제 연산에 사용되는 변수
+   1. 정수형 : byte, short, int, long
+    2. 실수형 : float, double
+    3. 문자형 : char
+    4. 논리형 : boolean
+2. 참조형(reference type) : 8개의 기본형 변수를 사용하여 사용작다 직접 만들어 사용하는 변수
+
+## 변수 선언
+변수를 사용하시 전에 변수를 선언하고 초기화
+1. 변수의 선언만 : 변수 선언하여 메모리 공간 할당, Not Good
+2. 변수의 선언과 동시에 초기화 : 선언과 동시에 변수 할당하여 초기값 세팅, Good
+
+   ```java
+   int num; // 변수만 선언
+   System.out.println(num); // 오류 발생 초기값 없음
+   num = 0; // 변수 초기화
+   System.out.println(num); //0   
+   ```
+   ** 같은 타입의 데이터만 저장
