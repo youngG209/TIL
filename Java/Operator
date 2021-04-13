@@ -1,0 +1,164 @@
+# 연산자 (Operator)
+## 산술 연산자 (Arithmetic Operator)
+
+<table>
+<thead>
+<th>산술 연산자</th>
+<th>설명</th>
+</thead>
+<tbody>
+<tr>
+<td>
++
+</td>
+<td>
+더하기
+</td>
+</tr>
+<tr>
+<td>
+-
+</td>
+<td>
+빼기
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+곱하기
+</td>
+</tr>
+<tr>
+<td>
+/
+</td>
+<td>
+나누기
+</td>
+</tr>
+<tr>
+<td>
+%
+</td>
+<td>
+나눈 후, 나머지 값 반환
+</td>
+</tr>
+</tbody>
+</table>
+
+## 대입 연산자(Assignment Operator)
+
+
+<table>
+<thead>
+<th>대입 연산자</th>
+<th>설명</th>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>오른쪽 값을 왼쪽 값에 대입</td>
+</tr>
+<tr>
+<td>+=</td>
+<td>더한 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>-=</td>
+<td>뺀 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>*=</td>
+<td>곱한 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>/=</td>
+<td>나눈한 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>%=</td>
+<td>나눈한 후, 나머지 값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>&=</td>
+<td>비트 AND 연산 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>|=</td>
+<td>비트 OR 연산 후, 결과값을 왼쪽에 대입</td>
+</tr>
+<tr>
+<td>^=</td>
+<td>비트 XOR 연산 후, 결과값을 왼쪽에 대입</td>
+</tr>
+</tbody>
+</table>
+
+## 증감 연산자
+| 증감 연산자 | 설명
+|------------|-------
+| ++a | 먼저 값을 1 증가 시킨 후 해당 연산을 진행
+| a++ | 먼저 해당 연산을 수행하고 나서 값을 1 증가 시킴
+| --a | 먼저 값을 1 감소 시킨 후 해당 연산을 진행
+| a-- | 먼저 해당 연산을 수행하고 나서 값을 1 감소 시킴
+
+## 비교 연산자
+| 비교 연산자 | 설명
+|------------|-------
+| == | 왼쪽 값과 오른쪽 값이 같으면 true
+| != | 왼쪽 값과 오른쪽 값이 같지 않으면 true
+| > | 왼쪽 값이 오른쪽 값보다 크면 true
+| >= | 왼쪽 값이 오른쪽 값보다 크거나 같으면 true
+| < | 왼쪽 값이 오른쪽 값보다 작으면 true
+| <= | 왼쪽 값이 오른쪽 값보다 작거나 같으면 true
+
+## 논리 연산자
+<table>
+<thead>
+<th>논리 연산자</th>
+<th>설명</th>
+</thead>
+<tbody>
+<tr> <td>&&</td> <td>논리식이 모두 참이면 참을 반환함. (논리 AND 연산)</td> </tr>
+<tr> <td>||</td> <td>논리식 중에서 하나라도 참이면 참을 반환함. (논리 OR 연산)</td> </tr>
+<tr> <td>!</td>  <td>논리식의 결과가 참이면 거짓을, 거짓이면 참을 반환함. (논리 NOT 연산)</td> </tr>
+</tbody>
+</table>
+
+## 삼항 연산자
+    문법 : 조건식 ? 반환값1 : 반환값2
+    설명 : 물음표(?) 앞의 조건식에 따라 결괏값이 true면 반환값1을 반환, false면 반환값2를 반환
+```java
+int num1 = 5, num2 = 7;
+int result = 0;
+
+result = (num1 - num2 > 0) ? num1 : num2;
+System.out.println("두 정수 중 더 큰 수는 " + result + "입니다.");
+```
+    실행 결과 : 두 정수 중 더 큰 수는 7입니다.
+
+## instanceof 연산자
+- 참조 변수가 참조하고 있는 인스턴스의 실제 타입을 반환해 줍니다.
+- 즉 해당 객체가 어떤 클래스나 인터페이스로 부터 생성 되었는지를 판별해주는 역활을 함  
+  
+    
+    문법 : 인스턴스이름 instanceof 클래스 또는 인터페이스 이름
+    설명 : 왼쪽 인스턴스가 오른쪽 클래스나 인터페이스로 부터 생성되었다면 true, 아니면 false
+
+```java
+class A {}
+class B extends a {}
+public static void main(String[] args) {
+    A a = new A();
+    B b = new B();
+
+    System.out.println(a instanceof A); // true
+    System.out.println(b instanceof A); // true
+    System.out.println(a instanceof B); // false
+    System.out.println(b instanceof B); // true
+}
+```
