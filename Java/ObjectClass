@@ -1,0 +1,110 @@
+# Object 클래스
+
+## toString() 메소드
+
+- 해당 인스턴스에 대한 정보를 문자열로 반환함 <br/> 반환되는 문자열은 클래스 이름과 함께 구분자로 '@'가 사용되며, 그뒤로 16진수 해시 코드(hash code)가 추가됨
+- 16진수 해시 코드 값은 인스턴스의 주소를 가리키는 값으로, 인스턴스마다 모두 다르게 반환
+
+** 자바에서 toString() 메소드는 기본적으로 각 API 클래스마다 자체적으로 오버라이딩을 통해 재정의되어 있음
+
+        예제
+            Car car1 = new Car();
+            Car car2 = new Car();
+
+            System.out.println(car1.toString());
+            System.out.println(car2.toString());
+
+        실행 결과
+            Car@15db9742
+            Car@6d06d69c
+
+## equals() 메소드
+
+- 해당 인스턴스를 매개변수로 전달받는 참조 변수와 비교하여, 그 결과를 반환함
+- 참조 변수가 가리키는 값을 비교하므로, 서로 다른 두 객체는 언제나 false를 반환하게 됨
+
+        예제
+            Car car1 = new Car();
+            Car car2 = new Car();
+
+            System.out.println(car1.equals(car2));
+            car1 = car2; // 두 참조 변수가 같은 주소를 가리킴(car1 변수에 car2를 넣으므로)
+            System.out.println(car1.equals(car2));
+  
+        실행 결과
+            false
+            true
+
+## clone() 메소드
+
+- 해당 인스턴스를 복제하여, 새로운 인스턴스를 생성해 반환함
+- Object 클래스의 clone() 메소드는 단지 필드의 값만을 복사하므로, 필드의 값이 배열이나 인스턴스면 제대로 복제할 수 없음 <br/>
+  따라서 이러한 경우에는 해당 클래스에서 clone() 메소드를 오버라이딩하여, 복제가 제대로 이루어지도록 재정의해야 함
+- 데이터의 보호를 이유로 Cloneable 인터페이스를 구현한 클래스의 인스턴스만이 사용할 수 있음
+
+        예제
+                class Car implements Cloneable {
+                    private String modelName;
+            1.      private ArrayList<String> owners = new ArrayList<String>();
+    
+                    public String getModelName() { return this.modelName; }                     
+                    public void setModelName(String modelName) { this.modelNAme = modelName; }
+    
+                    public ArrayList getOwners() { return this.owners; }                     
+                    public void setOwners(String ownerName) { this.owners.add(ownerName); }
+    
+                    public Object clone() {
+                        try {
+            2.              Car clonedCar = (Car)super.clone();
+            3.              // clonedCar.owners = (ArrayList)owners.clone();
+                            return clonedCar;
+            4.          } catch (CloneNotSupportedException ex) {
+                            ex.printStackTrace();
+                            return null;
+                        }
+                    }
+                }
+    
+                pubilc class Object03 {
+                    public static void main(String[] args) {
+            5.          Car car1 = new car();
+                        car1.setModelName("아반떼");
+                        car1.setOwners("홍길동");
+            6.          System.out.println("Car1 : " + car1.getModelName() + ", " + car1.getOwners() + "\n");
+    
+            7.          Car car2 = (Car)car1.clone();
+            8.          car2.setOwners("이순신");
+            9.          System.out.println("Car1 : " + car1.getModelName() + ", " + car1.getOwners());
+            10.         System.out.println("Car2 : " + car2.getModelName() + ", " + car2.getOwners());
+
+        실행결과
+            Car1 : 아반떼, [홍길동]
+            
+            Car1 : 아반떼, [홍길동, 이순신]
+            Car2 : 아반떼, [홍길동, 이순신]
+
+        설명
+            2번 라인에서는 부모 클래스의 clone() 메소드를 호출하여 clone() 메소드를 오버라이딩하고 있음
+            5번 라인에서는 Car 클래스의 인스턴스인 car1을 생성하고, 7번 라인에서는 오버라이딩한 clone() 메소드를 호출하여 복제를 수행하고 있음
+            But, 2번 라인처럼 clone() 메소드를 재정의하면, 필드의 값이 1번 라인처럼 인스턴스일 때는 제대로 된 복제를 수행할 수 없음
+            8번 라인에서는 복제된 인스턴스인 car2의 owners 필드에 새로운 값을 하나 추가함
+            하지만 9번 라인의 실행 결과를 보면, 7번 라인의 결과와는 달리 원본 인스턴스인 car1의 owners 필드에도 새로운 값이 추가되었음을 확인 할 수 있음
+            이처럼 단순히 부모 클래스의 clone() 메소드를 호출하여 clone() 메소드를 재정의하면, 배열이나 인스턴스인 필드는 복제되는 것이 아닌 해당 배열이나 인스턴스를 가리키는 주소값만이 복제 되는 것임
+
+            따라서 정확한 복제를 위해서는 3번 라인처럼 배열이나 인스턴스인 필드에 대해서는 별도의 clone() 메소드를 구현하여 호출해야 함
+
+## Object 메소드 표
+
+| 메소드 | 설명
+|----|-----
+| protected Object clone() | 해당 객체의 복사본을 생성하여 반환함
+| boolean equals(Object obj) | 해당 객체와 전달받은 객체가 같은지 여부를 반환함
+| protected void finalize() | 해당 객체를 더는 아무도 참조하지 않아 가비지 컬렉터가 객체의 리소스를 정리하기 위해 호출함
+| Class<T> getClass() | 해당 객체의 클래스 타입을 반환함
+| int hashCode() | 해당 객체의 해시 코드값을 반환함
+| void notify() | 해당 객체의 대기(wait)하고 있는 하나의 스레드를 다시 실행할 때 호출함
+| void notifyAll() | 해당 객체의 대기(wait)하고 있는 모든 스레드를 다시 실행할 때 호출함
+| String toString() | 해당 객체의 정보를 문자열로 반환함
+| void wait() | 해당 객체의 다른 스레드가 notify()나 notifyAll() 메소드를 실행할 때 까지 현재 스레드를 일시적으로 대기(wait)시킬 때 호출함
+| void wait(long timeout) | 해당 객체의 다른 스레드가 notify()나 notifyAll() 메소드를 실행하거나 전달받은 시간이 지날 때까지 현재 스레드를 일시적으로 대기(wait)시킬 때 호출함
+| void wait(long timeout, int nanos) | 해당 객체의 다른 스레드가 notify()나 notifyAll() 메소드를 실행하거나 전달 받은 시간이 지나거나 다른 스레드가 현재 스레드를 인터럽트(interrupt) 할 때까지 현재 스레드를 일시적으로 대기(wait) 시킬 때 호출함
