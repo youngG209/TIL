@@ -1,0 +1,100 @@
+# SpringBuffer 클래스
+
+### 불변 클래스(Immutable Class)와 가변 클래스(Mutable Class)
+
+- 불변 클래스(Immutable Class) : Spring 클래스와 같이 한 번 생성되면 그 값을 변경할 수 없는 클래스  
+    - 사용 이유 : 멀티 스레드 환경에서 객체가 변화되는 상황이라면 불변 인스턴스를 사용하는 것이 좀 더 신뢰할 수 있는 코드를 작성할 수 있기 때문        
+        - 즉 하나의 객체에 접근하면서 각각의 객체가 서로 영향을 주어서는 안 되는 경우에 불변 인스턴스를 사용하면 값이 변하지 않는다는 점이 보장됨
+- 가변 클래스(Mutable Class) : SpringBuffer 클래스와 같이 자유롭게 인스턴스의 값을 변경할 수 있는 클래스
+
+## append() 메소드
+
+- 인수로 전달된 값을 문자열로 변환한 후, 해당 문자열의 마지막에 추가함
+- Spring 클래스의 concat() 메소드와 같으 결과를 반환하지만, 내부적인 처리 속도가 훨씬 빠름
+        
+        예제
+            StringBuffer str = new StringBuffer("Java");                
+            System.out.println("원본 문자열 : " + str);
+            
+            System.out.println(str.append("수업"));                
+            System.out.println("append() 메소드 호출 후 원본 문자열 : " + str);
+        
+        실행 결과
+            원본 문자열 : Java            
+            Java수업            
+            append() 메소드 호출 후 원본 문자열 : Java수업
+
+## capacity() 메소드
+
+- SpringBuffer 인스턴스의 현재 버퍼 크기를 반환함
+
+        예제
+            StringBuffer str01 = new StringBuffer();        
+            StringBuffer str02 = new StringBuffer("Java");
+            
+            System.out.println(str01.capacity());        
+            System.out.println(str02.capacity());
+        
+        실행 결과
+            16        
+            20
+
+        설명
+            길이가 4인 문자열로 StringBuffer 인스턴스를 생성하면, 
+            기본적으로 생성되는 여유 버퍼 크기인 16에 문자의 길이인 4를 더한 총 20개의 문자를 
+            저장할 수 있는 버퍼가 생성되는 것을 확인할 수 있음
+
+## delete() 메소드
+
+- 전달된 인덱스에 해당하는 부분 문자열을 해당 문자열에서 제거함
+- deleteCharAt() 메소드를 사용하면 특정 위치의 문자 한 개만을 제거함
+
+        예제
+            StringBuffer str = new StringBuffer("Java Oracle");        
+            System.out.println("원본 문자열 : " + str);
+            
+        1.  System.out.println(str.delete(4, 8));        
+            System.out.println(str.deleteCharAt(1));        
+            System.out.println("deleteCharAt() 메소드 호출 후 원본 문자열 : " + str);
+        
+        실행 결과
+            원본 문자열 : Java Oracle        
+            Javacle        
+            Jvacle        
+            deleteCharAt() 메소드 호출 후 원본 문자열 : Jvacle
+        
+        설명
+            1번 라인에서는 delete() 메소드를 사용하여 해당 문자열에서 인덱스가 4인 위치의 문자로 부터 7 위치의 문자까지를 삭제하고 있음
+            이처럼 첫번째 매개변수로 전달된 인덱스부터 두번째 매개 변수로 전달된 인덱스 바로 앞의 문자까지를 삭제하는 메소드임
+
+## insert() 메소드
+
+- 인수로 전달된 값을 문자열로 변환한 후, 해당 문자열의 지정된 인덱스 위치에 추가함
+- 전달된 인덱스가 해당 문자열의 길이와 같으면, append() 메소드와 같은 결과를 반환함
+
+        예제
+            StringBuffer str = new StringBuffer("Java 만세!!");        
+            System.out.println("원본 문자열 : " + str);
+      
+        1.  System.out.println(str.insert(4, "Script"));
+        
+            System.out.println("insert() 메소드 호출 후 원본 문자열 : " + str);
+        
+        실행 결과
+            원본 문자열 : Java 만세!!            
+            JavaScript 만세!!            
+            insert() 메소드 호출 후 원본 문자열 : JavaScript 만세!!
+
+        설명
+            1번 라인에서는 insert() 메소드를 사용하여 해당 문자열에서 인덱스가 4인 위치부터 두번째 매개변수로 전달된 문자열을 추가하고 있음.
+
+## StringBuffer 메소드 표
+
+| 메소드 | 설명
+|----|-----
+| StringBuffer append(boolean b)<br/>StringBuffer append(char c)<br/>StringBuffer append(char[] str)<br/>StringBuffer append(CharSequence s)<br/>StringBuffer append(double d)<br/>StringBuffer append(float f)<br/>StringBuffer append(int i)<br/>StringBuffer append(long lng)<br/>StringBuffer append(Object obj)<br/>StringBuffer append(String str)<br/>StringBuffer append(StringBuffer sb) | 인수로 전달된 값을 문자열로 변환한 후, 해당 문자열의 마지막에 추가함
+| int capacity() | 현재 버퍼 크기를 반환함
+| StringBuffer delete(int start, int end) | 전달된 인덱스에 해당하는 부분 문자열을 해당 문자열에서 제거함
+| StringBuffer deleteCharAt(int index) | 전달된 인덱스에 해당하는 문자를 해당 문자열에서 제거함
+| StringBuffer insert(int offset, boolean b)<br/>StringBuffer insert(int offset, char c)<br/>StringBuffer insert(int offset, char[] str)<br/>StringBuffer insert(int offset, CharSequence s)<br/>StringBuffer insert(int offset, double d)<br/>StringBuffer insert(int offset, float f)<br/>StringBuffer insert(int offset, int i)<br/>StringBuffer insert(int offset, long lng)<br/>StringBuffer insert(int offset, Object obj)<br/>StringBuffer insert(int offset, String str) | 인수로 전달된 값을 문자열로 변환한 후, 해당 문자열의 지정된 인덱스 위치에 추가함
+| StringBuffer reverse() | 해당 문자열의 인덱스를 역순으로 재배열함
