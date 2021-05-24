@@ -1,0 +1,122 @@
+# 슬라이드바
+
+
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+<style>
+    .slider2 {
+        position: relative;
+        width: 15px;
+        height: 320px;
+        margin: 5px;
+        top: 9px;
+        left: 20px;
+
+    }
+
+    .thumb2 {
+        position: relative;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+<div style=" top: -300px; left: 930px;">
+    <img src="../images/room6/room6_slider.png" height="466" width="65" style="position: absolute;"/>
+    <div id="slider" class="slider2" style="top: 72px; left: 22px;">
+        <!--  <div class="thumb"></div>-->
+        <img id="thumb" class="thumb2" src="../images/room6/room6_scrubber.png" height="35" width="35" style="left: -12px; top: 297px"/>
+    </div>
+    </img>
+</div>
+
+<script>
+    let thumb = slider.querySelector('#thumb');
+
+    thumb.onmousedown = function (event) {
+        event.preventDefault();
+
+        let shiftY = event.clientY - thumb.getBoundingClientRect().top;
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+
+        function onMouseMove(event) {
+            let newLeft = event.clientY - shiftY - slider.getBoundingClientRect().top;
+
+            console.log(event.clientY);
+            if (newLeft < 0) {
+                newLeft = 0;
+            }
+            let bottomEdge = slider.offsetHeight - thumb.offsetHeight;
+            if (newLeft > bottomEdge) {
+                newLeft = bottomEdge;
+            }
+
+            thumb.style.top = newLeft + 'px';
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mouseup', onMouseUp);
+            document.removeEventListener('mousemove', onMouseMove);
+        }
+
+    };
+
+    thumb.ontouchstart = function (event) {
+        event.preventDefault();
+
+        let shiftY = event.touches[0].clientY - thumb.getBoundingClientRect().top;
+
+        document.addEventListener("touchend", touchUp);
+        document.addEventListener("touchmove", touchMove);
+
+        function touchMove(event){
+            let newtop = event.touches[0].clientY - shiftY - slider.getBoundingClientRect().top;
+
+            if (newtop < 0) {
+                newtop = 0;
+            }
+            let bottomEdge = slider.offsetHeight - thumb.offsetHeight;
+            if (newtop > bottomEdge) {
+                newtop = bottomEdge;
+            }
+
+            thumb.style.top = newtop + 'px';
+        }
+
+        function touchUp() {
+            document.removeEventListener('touchend', touchUp);
+            document.removeEventListener('touchmove', touchMove);
+        }
+
+    };
+
+    thumb.ondragstart = function () {
+        return false;
+    };
+
+    // 하단 스크롤 애니메이션 제어
+    // var symbolThis = this;
+    // $('.pointer').draggable({
+    //   containment: $('#lower_09'),   // 드래그 가능 범위
+    //   axis: 'x',                  // 이동할 축
+    //   revert: false,               // 마우스 놓으면 처음 위치로 돌아가는지 유무
+    //   drag: function() {
+    //     var pos = $(this).position().left;      // pointer 위치
+    //     var fps = Math.round((pos - 161)/7);   // 1fps/7px
+    //     symbolThis.gotoAndStop(fps);
+    //   }
+    // });
+</script>
+
+</body>
+
+</html>
+```
